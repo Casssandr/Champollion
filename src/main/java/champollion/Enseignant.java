@@ -1,8 +1,12 @@
 package champollion;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Enseignant extends Personne {
 
     // TODO : rajouter les autres méthodes présentes dans le diagramme UML
+    private HashSet<Enseignement> myEnseignements;
 
     public Enseignant(String nom, String email) {
         super(nom, email);
@@ -18,7 +22,18 @@ public class Enseignant extends Personne {
      */
     public int heuresPrevues() {
         // TODO: Implémenter cette méthode
-        throw new UnsupportedOperationException("Pas encore implémenté");
+        //throw new UnsupportedOperationException("Pas encore implémenté");
+        int cm = 0;
+        int td = 0;
+        int tp = 0;
+        for (Enseignement ens : myEnseignements){
+            cm = cm + ens.getHeureCM();
+            td = td + ens.getHeureTD();
+            tp = tp +ens.getHeureTP();
+        }
+        double equiTD = 1.5*cm + td + 0.75*tp;
+        int eqTD = (int) equiTD;
+        return eqTD;
     }
 
     /**
@@ -32,7 +47,15 @@ public class Enseignant extends Personne {
      */
     public int heuresPrevuesPourUE(UE ue) {
         // TODO: Implémenter cette méthode
-        throw new UnsupportedOperationException("Pas encore implémenté");
+        //throw new UnsupportedOperationException("Pas encore implémenté");
+        int eqTD = 0;
+        for (Enseignement ens : myEnseignements){
+            if (ens.getUE() == ue){
+                double equiTD = 0.5*ens.getHeureCM()+ ens.getHeureTD() + 0.75*ens.getHeureTP();
+                eqTD = (int) equiTD;
+            }
+        }
+        return eqTD;
     }
 
     /**
@@ -45,7 +68,14 @@ public class Enseignant extends Personne {
      */
     public void ajouteEnseignement(UE ue, int volumeCM, int volumeTD, int volumeTP) {
         // TODO: Implémenter cette méthode
-        throw new UnsupportedOperationException("Pas encore implémenté");
+        //throw new UnsupportedOperationException("Pas encore implémenté");
+        Enseignement ens = new Enseignement (ue, volumeCM, volumeTD, volumeTP);
+        myEnseignements.add(ens);
+    }
+
+    public boolean enSousService(){
+        if (this.heuresPrevues() < 192){return true;}
+        else{return false;}
     }
 
 }
